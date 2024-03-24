@@ -33,6 +33,7 @@ class Video(models.Model):
     video_file = models.FileField(upload_to='media/videos/', validators=[validate_video_file_extension])
     title = models.CharField(max_length=100)
     description = models.TextField()
+    poster_image = models.ImageField(upload_to='media/video/posters/')
     categories = models.ManyToManyField(Category)
     likes = models.PositiveIntegerField(default=0)
     views = models.PositiveIntegerField(default=0)

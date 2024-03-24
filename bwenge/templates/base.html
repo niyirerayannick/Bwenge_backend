@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>BWENGE DASH</title>
+<title>BWENGE Dashboard</title>
 
 <link rel="shortcut icon" type="image/x-icon" href="{% static '/img/favicon.jpg' }">
 
@@ -103,15 +103,17 @@
                     </a>
                     <div class="dropdown-menu menu-drop-user">
                         <!-- User profile menu -->
+                        {% if request.user.is_authenticated %}
                         <div class="profilename">
                             <div class="profileset">
                                 <span class="user-img">
                                     <img src="{% static '/img/profiles/avator1.jpg' %}" alt="">
                                     <span class="status online"></span>
                                 </span>
+                                
                                 <div class="profilesets">
-                                    <h6>John Doe</h6>
-                                    <h5>Admin</h5>
+                                    <h6>{{ request.user.get_full_name }}</h6>
+                                    <h5></h5>
                                 </div>
                             </div>
                             <hr class="m-0">
@@ -126,6 +128,7 @@
                                 <img src="{% static '/img/icons/log-out.svg' %}" class="me-2" alt="img"> Logout
                             </a>
                         </div>
+                        {% endif %}
                         
                     </div>
                 </li>
@@ -153,6 +156,26 @@
                         </a>
                     </li>
                     <li class="submenu">
+                        <a href="javascript:void(0);"><i data-feather="layers"></i>
+                            <span>BWENGE SPOC</span> 
+                            <span class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="{% url 'community_list' %}">SPOC List</a></li>
+                            <li><a href="{% url 'add-community' %}">add SPOC</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="javascript:void(0);">
+                            <img src="{% static '/img/icons/places.svg' %}" alt="img">
+                            <span>BWENGE MOOC</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <ul>
+                            <li><a href="{% url 'community_list' %}">MOOC List</a></li>
+                            <li><a href="{% url 'add-community' %}">add MOOC</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu">
                         <a href="javascript:void(0);">
                             <img src="{% static '/img/icons/product.svg' %}" alt="img">
                             <span> Video</span>
@@ -161,8 +184,17 @@
                         <ul>
                             <li><a href="{% url 'video_list' %}">Video List</a></li>
                             <li><a href="{% url 'add-video' %}">Add Video</a></li>
-                            <li><a href="{% url 'dashboard' %}">Category List</a></li>
-                            <li><a href="{% url 'dashboard' %}">Add Category</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="javascript:void(0);">
+                            <img src="{% static '/img/icons/purchase1.svg' %}" alt="img">
+                            <span> Category</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <ul>
+                            <li><a href="{% url 'categorylist' %}">Category List</a></li>
+                            <li><a href="{% url 'add-category' %}">Add Category</a></li>
                         </ul>
                     </li>
                     <li class="submenu">
@@ -172,12 +204,36 @@
                             <span class="menu-arrow"></span>
                         </a>
                         <ul>
-                            <li><a href="video-list.html">Articles List</a></li>
-                            <li><a href="add-video.html">add Article</a></li>
-                            <li><a href="categorylist.html">Category List</a></li>
-                            <li><a href="addcategory.html">Add Category</a></li>
+                            <li><a href="{% url 'article_list' %}">Articles List</a></li>
+                            <li><a href="{% url 'add-article' %}">add Article</a></li>
                         </ul>
                     </li>
+                    
+                    <li class="submenu">
+                        <a href="javascript:void(0);">
+                            <img src="{% static '/img/icons/transfer1.svg' %}" alt="img">
+                            <span> Project</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <ul>
+                            <li><a href="{% url 'article_list' %}">Project List</a></li>
+                            <li><a href="{% url 'add-article' %}">add Project</a></li>
+                            <li><a href="{% url 'categorylist' %}">Category List</a></li>
+                            <li><a href="{% url 'add-category' %}">Add Category</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="javascript:void(0);">
+                            <img src="{% static '/img/icons/places.svg' %}" alt="img">
+                            <span> Community</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <ul>
+                            <li><a href="{% url 'community_list' %}">Community List</a></li>
+                            <li><a href="{% url 'add-community' %}">add Community</a></li>
+                        </ul>
+                    </li>
+                    
                     <li class="submenu">
                         <a href="javascript:void(0);">
                             <img src="{% static '/img/icons/settings.svg' %}" alt="img">
@@ -185,12 +241,9 @@
                             <span class="menu-arrow"></span>
                         </a>
                         <ul>
-                            <li><a href="generalsettings.html">General Settings</a></li>
-                            <li><a href="emailsettings.html">Email Settings</a></li>
-                            <li><a href="paymentsettings.html">Payment Settings</a></li>
-                            <li><a href="currencysettings.html">Currency Settings</a></li>
-                            <li><a href="grouppermissions.html">Group Permissions</a></li>
-                            <li><a href="taxrates.html">Tax Rates</a></li>
+                            <li><a href="generalsettings.html">Updata Profile</a></li>
+                            <li><a href="emailsettings.html">Change Password</a></li>
+                            
                         </ul>
                     </li>
                 </ul>
@@ -217,6 +270,7 @@
             return true; // Form submission allowed
         }
  </script>
+
     
 <script src="{% static '/js/jquery-3.6.0.min.js' %}"></script>
 

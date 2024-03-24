@@ -1,18 +1,20 @@
-from ast import Expression
+from rest_framework import generics
 from multiprocessing import context
 from django.forms import ValidationError
 from django.shortcuts import render
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from accounts.models import OneTimePassword
-from accounts.serializers import  GithubLoginSerializer, GoogleSignInSerializer, LoginSerializer, LogoutUserSerializer, PasswordResetRequestSerializer, SetNewPasswordSerializer, UserRegisterSerializer, VerifyUserEmailSerializer
+from accounts.serializers import  (GithubLoginSerializer, GoogleSignInSerializer, LoginSerializer,
+                                    LogoutUserSerializer, PasswordResetRequestSerializer,SetNewPasswordSerializer, 
+                                    UserRegisterSerializer, VerifyUserEmailSerializer, ProfileSerializer)
 from rest_framework import status
 from .utils import send_generated_otp_to_email
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from rest_framework.permissions import IsAuthenticated
-from .models import User
+from .models import User, Profile
 # Create your views here.
 
 
@@ -99,6 +101,16 @@ class SetNewPasswordView(GenericAPIView):
         return Response({'success':True, 'message':"password reset is succesful"}, status=status.HTTP_200_OK)
 
 
+class ProfileDetail(generics.RetrieveUpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+    def get_object(self):
+        return self.request.user.profile
+
+
+
 class LogoutApiView(GenericAPIView):
     serializer_class=LogoutUserSerializer
     permission_classes = [IsAuthenticated]
@@ -109,6 +121,11 @@ class LogoutApiView(GenericAPIView):
         serializer.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
  
+
+
+
+
+
 class GoogleOauthSignInview(GenericAPIView):
     serializer_class=GoogleSignInSerializer
 

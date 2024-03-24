@@ -3,7 +3,7 @@ import json
 from dataclasses import field
 
 from bwenge import settings
-from .models import User
+from .models import User, Profile
 from rest_framework import serializers
 from string import ascii_lowercase, ascii_uppercase
 from django.contrib.auth import authenticate
@@ -162,6 +162,13 @@ class LogoutUserSerializer(serializers.Serializer):
         except TokenError:
             return self.fail('bad_token')
         
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = '__all__'
+
+
+
 
 class GoogleSignInSerializer(serializers.Serializer):
     access_token=serializers.CharField(min_length=6)
