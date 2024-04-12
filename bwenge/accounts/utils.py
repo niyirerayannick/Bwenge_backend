@@ -8,7 +8,7 @@ from django.contrib.sites.shortcuts import get_current_site
 
 def send_generated_otp_to_email(email, request): 
     subject = "One time passcode for Email verification"
-    otp=random.randint(1000, 9999) 
+    otp=random.randint(100000, 99999) 
     current_site=get_current_site(request).domain
     user = User.objects.get(email=email)
     email_body=f"Hi {user.first_name} thanks for signing up on {current_site} please verify your email with the \n one time passcode {otp}"

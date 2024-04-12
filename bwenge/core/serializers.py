@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Article, Comment, Category, Video
+from .models import Article, Comment, Category, Video,Community, Post, Reply
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,4 +44,18 @@ class VideoSerializer(serializers.ModelSerializer):
                 video.categories.add(video)
         return video
     
-    
+
+class CommunitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Community
+        fields = '__all__'
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = '__all__'
+
+class ReplySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reply
+        fields = '__all__'

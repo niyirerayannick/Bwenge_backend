@@ -24,7 +24,7 @@
                                 <label for="author">Select Author</label>
                                 <select id="author" name="author" required class="form-control">
                                     <option value="">Select Author</option>
-                                    {% for user in users %}
+                                    {% for user.role in users %}
                                         <option value="{{ user.id }}">{{ user.first_name }}</option>
                                     {% endfor %}
                                 </select>

@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from accounts.models import User
+from accounts.models import Profile, User, UserRolePermissions
 from core.models import Category, Video, Article
 from django.db.models import Sum
 from rest_framework import status
@@ -110,7 +110,7 @@ def addArticle(request):
         )
         article.categories.add(*categories)
 
-        return redirect('dashboard')
+        return redirect('article_list')
     
     else:
         categories = Category.objects.all()
@@ -118,8 +118,8 @@ def addArticle(request):
         return render(request, "admin/Articles/add-article.html", {'categories': categories, "users": users})
 
 def articleList(request):
-    article=Article.objects.all()
-    return render(request, "admin/Articles/articles-list.html", {'article': article})
+    articles=Article.objects.all()  
+    return render(request, "admin/Articles/articles-list.html", {'articles': articles})
 
 def community_list(request):
     return render(request,"admin/community/community_list.html")
@@ -127,44 +127,48 @@ def community_list(request):
 def addcommunity(request):
     return render(request,"admin/community/add-community.html")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 def add_user(request):
     if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
+        email = request.POST.get('email')
+        password = request.POST.get('password')
         full_name = request.POST.get('full_name', '')
         telephone = request.POST.get('telephone', '')
+        role = request.POST.get('role')
+        first_name, last_name = full_name.split(' ', 1) if ' ' in full_name else (full_name, '')
 
+        
         # Create a new user instance using CustomUser model and manager
-        user = User.objects.create_user(email=email, password=password)
+        user = User.objects.create_user(email=email, password=password, first_name=first_name, last_name=last_name)
         user.full_name = full_name
         user.telephone = telephone
-        if user.is_superuser:
-            user.role = 'admin'
+
+        # Assign role based on the selected role in the form
+        if role == 'institution_admin':
+            user.is_staff = True
+            user.role = 'institution_admin'
+        elif role == 'system_admin':
+            user.is_staff = True
+            user.is_superuser = True
+            user.role = 'system_admin'
         else:
-            user.role = 'student'
+            user.role = 'user'
 
         user.save()
+        # Assign permissions based on user role
+        UserRolePermissions.assign_permissions(user)
+
         return redirect('user_list')  # Redirect to a page displaying the list of users
 
-    return render(request, 'admin/add_user.html')
+    return render(request, 'admin/user/add_user.html')
 
-def articlesList(request):
-    return render(request, "articles/article_list.html")
+def user_list(request):
+    return render(request,"admin/community/community_list.html")
+
+@login_required
+def view_profile(request):
+    profile = Profile.objects.get(user=request.user)
+    return render(request, 'admin/user/view_profile.html', {'profile': profile})
+
 
 
 def adminlogin(request):

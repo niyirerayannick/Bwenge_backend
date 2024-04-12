@@ -20,9 +20,10 @@ class UserManger(BaseUserManager):
             raise ValueError(_("please First name is Required"))
         if not last_name:
             raise ValueError(_("please Last Name is Required"))
-        user=self.model(email=email, first_name=first_name, last_name=last_name, **extra_fields)
+        user=self.model(email=email, first_name=first_name, last_name=last_name,**extra_fields)
         user.set_password(password)
         user.save(using=self._db)
+        
         return user
     
     def create_superuser(self,email,first_name,last_name, password, **extra_fields):

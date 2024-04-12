@@ -3,9 +3,9 @@ from django.contrib.auth import views as auth_views
 from .views import ( 
     addArticle, addcategory, articleList, categorylist, dashboard, addVideo, delete_category, edit_category, video_detail,
     video_list,community_list,
-    # user_list,
+    user_list,
     add_user,
-    adminlogin,forgot_password
+    adminlogin,forgot_password, view_profile
     # delete_video,
     # edit_video,
     # delete_user,
@@ -34,8 +34,11 @@ urlpatterns = [
 
     
 
-    # path('dashiboard/user_list/', user_list, name='user_list'),
+    path('user_list/', user_list, name='user_list'),
     path('add_user/', add_user, name='add_user'),
+    
+    path('profile/', view_profile, name='view_profile'),
+    # path('profile/edit/', edit_profile, name='edit_profile'),
     # path('dashboard/video/<int:video_id>/edit/', edit_video, name='edit_video'),
     # path('dashboard/video/<int:video_id>/delete/', delete_video, name='delete_video'),
     # path('dashboard/user/<int:user_id>/', delete_user, name='delete_user'),

@@ -23,7 +23,7 @@ urlpatterns = [
     path("api/auth/", include("accounts.urls")),
     path("api/", include("core.urls")),
     path("dashboard/", include("dashboard.urls")),
-    path("course/", include("course.urls"))
+    path("bwenge/", include("course.urls"))
 
 ]
 if settings.DEBUG:

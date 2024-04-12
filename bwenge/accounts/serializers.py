@@ -1,15 +1,11 @@
 
-import json
-from dataclasses import field
-
 from bwenge import settings
 from .models import User, Profile
 from rest_framework import serializers
-from string import ascii_lowercase, ascii_uppercase
 from django.contrib.auth import authenticate
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.utils.encoding import smart_str, force_str, smart_bytes
+from django.utils.encoding import force_str, smart_bytes
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
@@ -166,8 +162,6 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = '__all__'
-
-
 
 
 class GoogleSignInSerializer(serializers.Serializer):
